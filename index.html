@@ -14,24 +14,32 @@
   <script>
     var startTime, elapsedTime = 0;
     var timerInterval;
+    var isRunning = false;
 
     function startTimer() {
-      startTime = Date.now() - elapsedTime;
-      timerInterval = setInterval(function() {
-        var now = Date.now();
-        elapsedTime = now - startTime;
-        displayTime(elapsedTime);
-      }, 10);
+      if (!isRunning) {
+        startTime = Date.now() - elapsedTime;
+        timerInterval = setInterval(function() {
+          var now = Date.now();
+          elapsedTime = now - startTime;
+          displayTime(elapsedTime);
+        }, 10);
+        isRunning = true;
+      }
     }
 
     function stopTimer() {
-      clearInterval(timerInterval);
+      if (isRunning) {
+        clearInterval(timerInterval);
+        isRunning = false;
+      }
     }
 
     function resetTimer() {
       clearInterval(timerInterval);
       elapsedTime = 0;
       displayTime(elapsedTime);
+      isRunning = false;
     }
 
     function displayTime(time) {
